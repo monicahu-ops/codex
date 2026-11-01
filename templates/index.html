@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>工作记录</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <aside><div class="brand">日程<span>·</span>工作记录</div><nav>
+    <button class="nav active" data-view="logs">工作日志</button><button class="nav" data-view="todos">工作待办 <b id="todoBadge"></b></button>
+    <p>汇总报告</p><button class="nav" data-view="month">工作月报</button><button class="nav" data-view="year">工作年报</button><p>设置</p><button class="nav" id="projectSettings">项目标签设置</button>
+  </nav><div class="aside-note">用每天的记录，长出清晰的复盘。</div></aside>
+  <main>
+    <section id="logs" class="view active"><header><div><h1>工作日志</h1><p>记录进展、决策与下一步。</p></div><button class="primary" id="newLog">＋ 新建日志</button></header><div class="filters"><input id="logKeyword" placeholder="搜索标题或内容"><input id="logFrom" type="date" aria-label="开始日期"><input id="logTo" type="date" aria-label="结束日期"><select id="logType"><option value="">全部类型</option><option>开发</option><option>管理</option><option>文档</option><option>其他</option></select><select id="logProject"><option value="">全部项目</option></select><button class="link filter-reset" id="resetLogs">重置</button></div><div id="logList" class="cards"></div></section>
+    <section id="todos" class="view"><header><div><h1>工作待办</h1><p>把日志里的下一步，变成可完成的事项。</p></div><button class="primary" id="newTodo">＋ 新建待办</button></header><div class="filters"><input id="todoKeyword" placeholder="搜索待办"><select id="todoStatus"><option value="">全部状态</option><option value="open">进行中</option><option value="done">已完成</option></select><input id="todoFrom" type="date" aria-label="最早截止日期"><input id="todoTo" type="date" aria-label="最晚截止日期"><button class="link filter-reset" id="resetTodos">重置</button></div><div id="todoList" class="todo-list"></div></section>
+    <section id="month" class="view report"><header><div><h1>工作月报</h1><p>从当月日志自动汇总。</p></div><input type="month" id="monthPicker"></header><div id="monthReport"></div></section>
+    <section id="year" class="view report"><header><div><h1>工作年报</h1><p>从全年日志自动汇总。</p></div><input type="number" id="yearPicker" min="2000" max="2100"></header><div id="yearReport"></div></section>
+  </main>
+  <dialog id="logDialog"><form method="dialog" id="logForm"><h2 id="logDialogTitle">新建工作日志</h2><input type="hidden" id="logId"><label>日期<input id="loggedOn" type="date" value="{{ today }}" required></label><label>工作类型<select id="workType"><option>开发</option><option>管理</option><option>文档</option><option>其他</option></select></label><label>标题<input id="logTitle" placeholder="例如：完成客户方案评审" required></label><label>内容<textarea id="logContent" placeholder="完成了什么、遇到什么、下一步是什么？"></textarea></label><label>项目标签（可多选）<select id="logTags" multiple size="4"></select><small>项目标签可在左侧“项目标签设置”中维护。</small></label><footer><button value="cancel">取消</button><button class="primary" value="default">保存日志</button></footer></form></dialog>
+  <dialog id="todoDialog"><form method="dialog" id="todoForm"><h2>新建待办</h2><input type="hidden" id="todoSource"><label>事项<input id="todoTitle" required placeholder="下一步要做什么？"></label><label>截止日期（可选）<input id="todoDue" type="date"></label><footer><button value="cancel">取消</button><button class="primary" value="default">保存待办</button></footer></form></dialog>
+  <dialog id="projectDialog"><form method="dialog" id="projectForm"><h2>项目标签设置</h2><p class="hint">创建后可在工作日志中选择；删除标签不会删除已有日志中的历史记录。</p><div class="project-add"><input id="projectName" placeholder="例如：数据中台"><button class="primary" value="default">添加</button></div><div id="projectList" class="project-list"></div><footer><button value="cancel">关闭</button></footer></form></dialog>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>
